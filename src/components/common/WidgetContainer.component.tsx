@@ -1,10 +1,9 @@
 import { ReactNode } from 'react';
 
 interface IWidgetContainerProps {
-  title?: string;
+  children: ReactNode; // Default property
   error?: any;
   loading?: boolean;
-  children: ReactNode;
   fallbackSkeleton?: ReactNode;
   isEmptyData?: boolean;
 }

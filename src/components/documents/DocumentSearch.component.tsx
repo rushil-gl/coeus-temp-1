@@ -1,26 +1,66 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
+import { ReactComponent as MicSVG } from "../../assets/custom/mic.svg";
+import { ReactComponent as MicClosedSVG } from "../../assets/custom/mic-closed.svg";
+import { ReactComponent as SearchSVG } from "../../assets/custom/search.svg";
 
 interface IDocumentSearchProps {
   search: string;
-  setSearch: Dispatch<SetStateAction<string>>
+  setSearch: Dispatch<SetStateAction<string>>;
 }
 
-function DocumentSearch ({ search, setSearch }: IDocumentSearchProps) {
+function DocumentSearch({ search, setSearch }: IDocumentSearchProps) {
+  const {
+    transcript,
+    listening,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition({ clearTranscriptOnListen: true });
+
+  useEffect(() => {
+    setSearch(transcript);
+  }, [transcript]);
+
+  const micClickHandler = () => {
+    if (!listening) {
+      SpeechRecognition.startListening();
+    } else {
+      SpeechRecognition.stopListening();
+    }
+  }
+
   return (
-    <div className="flex flex-1 items-center justify-center p-6">
-        <div className="w-full max-w-lg">
-          <div className="mt-5 sm:flex sm:items-center">
-            <input
-              className="inline w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-              placeholder="Keyword"
-              type="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+    <div className="max-w-[60%] mx-auto">
+      <div className="relative flex items-center border border-slate-300 rounded-full dark:bg-neutral-900">
+        {/* Search Icon */}
+        <div className="p-2 ps-5">
+          <SearchSVG />
+        </div>
+
+        {/* Input Field */}
+        <input
+          type="text"
+          className="flex-grow p-3 text-lg text-gray-900 dark:text-white dark:bg-neutral-900 focus:outline-none"
+          placeholder="Search For Any Documents"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        {/* Vertical Line */}
+        <div className="h-14 mr-4 border-l dark:border-gray-500"></div>
+        <div
+          onClick={micClickHandler}
+          className={`p-2 pe-6 cursor-pointer space-x-2  ${
+            !browserSupportsSpeechRecognition
+              ? "opacity-50 cursor-not-allowed"
+              : "opacity-100 cursor-pointer"
+          }`}
+        >
+          {listening ? <MicSVG /> : <MicClosedSVG />}
         </div>
       </div>
-  )
+    </div>
+  );
 }
 
 export default DocumentSearch;

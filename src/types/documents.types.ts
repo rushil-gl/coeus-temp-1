@@ -2,8 +2,15 @@ export interface IDocumentParams {
   search: string;
 }
 
-export interface IDocumentResponse {
-  name: string;
+export interface IDocumentDetail {
+  fileId: string;
+  documentTitle: string;
   description: string;
-  size: number;
+  isBookMarked: boolean;
+  tagName?: string;
+}
+
+export interface IDocumentResponse {
+  tagName: string;
+  documents: IDocumentDetail[];
 }
