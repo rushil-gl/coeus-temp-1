@@ -5,7 +5,6 @@ import { ReactNode, useEffect } from "react";
 function PrivateRoute({ children }: {children: ReactNode}) {
   const { user } = useAuth();
   const navigate = useNavigate();
-  alert(JSON.stringify(user));
 
   useEffect(() => {
     if (!user?.token) {

@@ -14,7 +14,7 @@ function DocumentsPage() {
         <DocumentSearch search={search} setSearch={setSearch} />
       </section>
 
-      <section className="mx-20 my-10">
+      <section className="mx-20 my-5">
         <WidgetContainer
           loading={documentsIsLoading}
           isEmptyData={validateEmptyData(documentsData)}

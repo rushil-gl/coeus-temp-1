@@ -12,14 +12,16 @@ interface IDocumentSearchProps {
 
 function DocumentSearch({ search, setSearch }: IDocumentSearchProps) {
   const {
-    transcript,
     listening,
     browserSupportsSpeechRecognition,
+    finalTranscript
   } = useSpeechRecognition({ clearTranscriptOnListen: true });
 
   useEffect(() => {
-    setSearch(transcript);
-  }, [transcript]);
+    if (!listening) {
+      setSearch(finalTranscript);
+    }
+  }, [listening]);
 
   const micClickHandler = () => {
     if (!listening) {

@@ -18,7 +18,6 @@ const AuthContext = createContext<IAuthContextProps | undefined>(undefined);
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<ILoginResponse | null>(JSON.parse(localStorage.getItem("user") || "{}"));
-  alert(JSON.stringify(user + "========"));
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
